@@ -144,8 +144,8 @@ Namely, it has support for creating remove machines (not clusters) in multiple c
 no need for maintaining this kind of functionality in the minikube project.
 
 One of the design flaws of libmachine is that when it provisions a VM it has to wait for SSH connection to become available, so it can execute steps via SSH.
-This approach is prone to several failure modes, and is anti-pattern, in contrast to immutable approach as an alternative (where all configuration is already
-built into the VM image and all it needs to do is start some processes on boot up).
+This approach is prone to several failure modes, and is widely known as an anti-pattern, in contrast to an immutable approach as an alternative (where all
+configuration is already built into the VM image and all it needs to do is start some processes on boot up).
 
 It's a goal of this proposal to eliminate libmachine dependency.
 
@@ -186,6 +186,9 @@ it all revolves around RPM and tools associated with it, minikube project would 
 [coreos]: https://coreos.com/os/docs/latest/sdk-modifying-coreos.html
 [atomic]: http://www.projectatomic.io/docs/compose-your-own-tree
 
+[LinuxKit](https://github.com/linuxkit/linuxkit) is a toolkit for building secure, portable and lean operating systems for containers.
+[LinuxKit Kubernetes blueprint](https://github.com/linuxkit/kubernetes) project is the upstream of Docker for Mac and Windows VM, and it is actively maintained by the
+Moby community.
 LinuxKit matches all of the requirements above, as it doesn't have a hard dependency on systemd. Although LinuxKit leverages Alpine Linux (and the APK package manager)
 for most of its components, that is only by convention and any component can be replaced. Alternative implementation of LinuxKit component can be built as easily
 as it is to build a Docker container image and thereby one can use any commodity tools under the hood. Additionally, one of the main use-cases of LinuxKit (Docker for Mac
@@ -195,6 +198,9 @@ a concrete definition of the image for any external tools to rely on. Such exter
 expect a VM to be fully bootstrapped once started, without resorting to SSH-based bootstrapping that depends on networking and usually has to assume how software
 that is installed in the VM image works exactly, starting from basic assumptions about versions of utilities, through to permissions, implementation of the init
 daemon and the order of stat up of certain system daemons.
+
+Furthermore, LinuxKit is built with production use-cases in mind, so it can be used in public cloud as well as in on-premise deployments. Same system blueprint can
+be leveraged for minikube as well as an production deployment.
 
 ### Single-binary Issue (`localkube`)
 
