@@ -60,6 +60,10 @@ on the surface result in a handful of minor user-experience issues that can be i
 and already mature substitutes. In essence, the goal of this proposal is to outline a plan to modernise minikube through adoption of tools and techniques that
 are maintained by community members and thereby reduce some of the maintenance burden that exists at present due to early technical choices.
 
+Recently, Docker for Mac has been released with support for local Kubernetes, and Docker for Windows will follow soon. This is not an open source project, and
+is designed to give an out of the box good experience, but it is not customisable in the same way as minikube. It is however built from open source upstream
+components, in particular the [LinuxKit Kubernetes support](https://github.com/linuxkit/kubernetes).
+
 ### Hypervisor Issues
 
 There are a few popular hypervisors:
@@ -131,7 +135,7 @@ on the given local environment. It is also not feasible to entirely isolate the 
 [VPNKit](https://github.com/moby/vpnkit/#why-is-this-needed) (part of HyperKit) solves this issue by by reconstructing Ethernet traffic from the VM and
 translating it into the relevant socket API calls on macOS or Windows. This allows the host application to generate traffic without requiring low-level Ethernet
 bridging support. Additionally, VPNKit allows to expose services running on Kubernetes on `localhost`, without having to reference IP address of the minikube VM,
-and supports transparent HTTP(S) proxies, which are common in enterprise networks.
+and supports transparent HTTP(S) proxies, which are common in enterprise networks. However VPNKit does not support routed access to pods, which some users desire.
 
 ### Hypervisor Abstraction Issue (`github.com/docker/libmachine`)
 
@@ -145,7 +149,8 @@ no need for maintaining this kind of functionality in the minikube project.
 
 One of the design flaws of libmachine is that when it provisions a VM it has to wait for SSH connection to become available, so it can execute steps via SSH.
 This approach is prone to several failure modes, and is widely known as an anti-pattern, in contrast to an immutable approach as an alternative (where all
-configuration is already built into the VM image and all it needs to do is start some processes on boot up).
+configuration is already built into the VM image and all it needs to do is start some processes on boot up). Hyperkit, VMWare and Hyper-V support host to VM
+sockets (vsock) that allow configuration to be passed even before VM networking is up, which can be used as a more reliable control plane than SSH if needed.
 
 It's a goal of this proposal to eliminate libmachine dependency.
 
@@ -154,7 +159,7 @@ It's a goal of this proposal to eliminate libmachine dependency.
 The minikube project relies upon a bespoke OS, built with BitBake and only maintained by minikube project authors, this OS provides very little benefit to
 the project and only imposes maintenance burden.
 
-Is't one of the goals of this proposal to eliminate the need for maintaining the bespoke OS.
+It is one of the goals of this proposal to eliminate the need for maintaining the bespoke OS.
 
 #### What minikube projects needs from an OS?
 
@@ -213,7 +218,7 @@ version). Moreover, minikube users currently cannot select a network or storage 
 distribution.
 
 Additionally, [**@r2d4**](https://github.com/r2d4) has implemented [`kubeadm` bootstrapper](https://github.com/kubernetes/minikube/pull/1903) and actively
-worked on improving it. LinuxKit already uses `kubeadm`, so that's another good reason to use LinuxKit.
+worked on improving it. This is intended to replace use of localkube in minikube. LinuxKit already uses `kubeadm`, so that's another good reason to use LinuxKit.
 
 ### Other Issues
 
