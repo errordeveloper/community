@@ -14,7 +14,7 @@ approvers:
   - TBD
 editor: TBD
 creation-date: 2017-11-24
-last-updated: 2017-12-18
+last-updated: 2018-18-18
 status: draft
 see-also:
   - KEP-1
@@ -43,7 +43,7 @@ replaces:
 
 ## Summary
 
-This proposal formalises some of the ideas that community members had been prototyping and experimenting with in various modes in attempt to improve different
+This proposal aims to formalise so Ime of the ideas that community members had been prototyping and experimenting with in various modes in attempt to improve different
 aspects of the user experience of Kubernetes on Linux, Windows or macOS workstations. It is in the best interest of the community to ensure that most desktop OS
 users have decent experience and that we share tools and best practice techniques where we see fit.
 
@@ -55,7 +55,9 @@ Kubernetes directly on their desktop OS without using a VM, and those who find d
 Some users find that using a remote cluster is more practical for their use-cases, and that is perfectly understood, however this is not a dominant use-case
 for multiple reasons which are beyond the scope of this proposal.
 
-At present, minikube is very popular and works reasonably well for many user, however there are number of implementation details of minikube's dependencies that
+At present, minikube is very popular and works reasonably well for many users
+
+, however there are a number of implementation details of minikube's dependencies that
 on the surface result in a handful of minor user-experience issues that can be improved quite easily. Consequentially, the dependencies in question have better
 and already mature substitutes. In essence, the goal of this proposal is to outline a plan to modernise minikube through adoption of tools and techniques that
 are maintained by community members and thereby reduce some of the maintenance burden that exists at present due to early technical choices.
@@ -78,7 +80,7 @@ There are a few popular hypervisors:
 
 Minikube currently has some support for all of these options, however it's not always clear to the user which options to pick and how well each
 will work. At present, minikube supports multiple options for each platform, and level of support varies. It's incredibly difficult for minikube
-developers to test each of the options and setting CI is not feasible at present.
+developers to test each of the options and setting up CI is not feasible at present.
 
 It's one of the goals of this proposal to pick best-known hypervisor solution for each platform and make it work best for the minikube users.
 
@@ -242,21 +244,16 @@ switching to Docker for Mac or Windows, hence these are outside of the scope of 
 
 ## Proposal
 
-This is where we get down to the nitty gritty of what the proposal actually is.
 
 ### User Stories [optional]
 
-<!--
-
-Detail the things that people will be able to do if this KEP is implemented.
-Include as much detail as possible so that people can understand the "how" of the system.
-The goal here is to make this feel real for users without getting bogged down.
-
 #### Story 1
+
+TODO
 
 #### Story 2
 
--->
+TODO
 
 ### Implementation Details/Notes/Constraints
 
@@ -326,7 +323,7 @@ We could recommend Hyper-V Manager on Window, but it doesn't provide integrated 
 
 ### Bespoke Operating System Issue
 
-...
+TODO
 
 ### General
 
